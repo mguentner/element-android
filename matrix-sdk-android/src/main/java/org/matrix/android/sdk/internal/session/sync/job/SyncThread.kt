@@ -107,6 +107,7 @@ internal class SyncThread @Inject constructor(private val syncTask: SyncTask,
 
     override fun onConnectivityChanged() {
         retryNoNetworkTask?.cancel()
+        syncScope.coroutineContext.cancelChildren()
         synchronized(lock) {
             canReachServer = true
             lock.notify()
